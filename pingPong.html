@@ -1,0 +1,157 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="./style.css">
+<canvas width="600" height="400"></canvas>
+
+<script>
+
+    // canvas
+    let tela = document.querySelector('canvas');
+    let body = document.querySelector('body');
+    let pincel = tela.getContext('2d');
+
+    // variáveis da bolinha
+    let xBolinha = 300;
+    let yBolinha = 200;
+    let raio = 10;
+
+    // velocidade da bolinha
+    let velocidadeXBolinha = 4;
+    let velocidadeYBolinha = 4;
+
+    // variáveis da minha raquete
+    let xRaquete = 10;
+    let yRaquete = 165;
+
+    // variáveis da raquete oponente
+    let xRaqueteOponente = 580;
+    let yRaqueteOponente = 165;
+
+    // pontos do jogo
+    let pontosOponente = 0;
+    let pontosJogador = 0;
+
+
+    // escutar teclado
+    document.addEventListener('keydown', movimentarRaquete);
+
+    function limpaTela() {
+
+        pincel.clearRect(0, 0, 600, 400);
+    }
+
+    function corDoCenario() {
+
+        pincel.fillStyle = 'black';
+        pincel.fillRect(0, 0, 600, 400);
+    }
+
+    function desenharCirculo(x, y, raio) {
+
+        pincel.fillStyle = 'white';
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2 * Math.PI);
+        pincel.fill();
+    }
+
+    function movimentaBolinha() {
+
+        xBolinha += velocidadeXBolinha;
+        yBolinha += velocidadeYBolinha;
+    }
+
+    function alterarSentidoDaBolinha() {
+        if ((xBolinha > 600 - raio) || (xBolinha < 0 + raio)) {
+
+            velocidadeXBolinha *= -1;
+            xBolinha = xBolinha + velocidadeXBolinha;
+        }
+
+        if ((yBolinha > 400 - raio) || (yBolinha < 0 + raio)) {
+
+            velocidadeYBolinha *= -1;
+            yBolinha = yBolinha + velocidadeYBolinha;
+        }
+    }
+
+    function desenhaRaquete(xRaquete, yRaquete) {
+
+        pincel.fillStyle = 'white';
+        pincel.fillRect(xRaquete, yRaquete, 10, 70);
+    }
+
+
+
+    function movimentarRaquete(evento) {
+
+        let keyCode = evento.keyCode;
+
+        switch (keyCode) {
+
+            case 38:
+                yRaquete -= 15;
+                break
+            case 40:
+                yRaquete += 15;
+                break
+        }
+    }
+
+    function movimentarRaqueteOponente() {
+
+        yRaqueteOponente = yBolinha - 35;
+    }
+
+    function contarPonto() {
+
+        if (xBolinha < 10) {
+
+            pontosOponente += 1;
+        }
+        if (xBolinha > 590) {
+
+            pontosJogador += 1;
+        }
+    }
+
+
+
+    function placarDoJogo() {
+
+        let placar = document.createElement('div');
+        let placarOponente = document.createElement('div');
+        let placarJogador = document.createElement('div');
+
+        placar.classList.add('placar');
+
+        placarJogador.classList.add('ponto');
+        placarOponente.classList.add('ponto');
+
+        placarJogador.appendChild(document.createTextNode("0"));
+        placarOponente.appendChild(document.createTextNode("0"));
+
+        placar.appendChild(placarOponente);
+        placar.appendChild(placarJogador);
+
+        tela.appendChild(placar);
+
+
+    }
+
+    function atualizarTela() {
+
+        limpaTela();
+        corDoCenario();
+        desenharCirculo(xBolinha, yBolinha, raio);
+        movimentaBolinha();
+        alterarSentidoDaBolinha();
+        desenhaRaquete(xRaquete, yRaquete);
+        desenhaRaquete(xRaqueteOponente, yRaqueteOponente);
+        movimentarRaqueteOponente();
+
+        // placarDoJogo();
+    }
+
+    setInterval(atualizarTela, 10);
+
+
+</script>

@@ -1,19 +1,6 @@
-.placar {
-    margin: 0 auto;
-    width: 30px;
-    height: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    background-color: #fff;
-    border: 0.5px solid #fff;  
-}
-
-.ponto {
-    font: 900 14px 'Arial';
-    background-color: #e48e0d;
-    color: #fff;
+body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #bbb;
 }
